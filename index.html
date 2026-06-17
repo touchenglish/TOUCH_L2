@@ -782,18 +782,57 @@ const SKILLS = {
  mix:{icon:"⭐",name:"PPF · OREO",steps:[],
   tag:{zh:"TOUCH 招牌技能",ms:"Kemahiran Tandatangan TOUCH",en:"TOUCH Signature Skills"},
   line:{zh:"",ms:"",en:""},
-  use:{zh:"💡 用上你所有的技能：PPF · OREO · Story Builder。",ms:"💡 Guna semua kemahiran anda: PPF · OREO · Story Builder.",en:"💡 Use all your skills: PPF · OREO · Story Builder."}}
+  use:{zh:"💡 用上你所有的技能：PPF · OREO · Story Builder。",ms:"💡 Guna semua kemahiran anda: PPF · OREO · Story Builder.",en:"💡 Use all your skills: PPF · OREO · Story Builder."}},
+ loop:{icon:"🔁",name:"Conversation Loop",steps:["Answer","One detail","One question"],
+  tag:{zh:"TOUCH 沟通习惯",ms:"Tabiat Komunikasi TOUCH",en:"TOUCH Communication Habit"},
+  line:{zh:"回答 + 补一点细节 + 反问一句（What about you?）。对话像打羽毛球，一来一回不冷场。",ms:"Jawab + satu butiran + satu soalan (What about you?). Perbualan macam badminton — berbalas-balas.",en:"Answer + one detail + one question back (What about you?). Conversation is badminton — keep the rally going."},
+  use:{zh:"💡 用你的 Conversation Loop：回答 + 细节 + 反问。",ms:"💡 Guna Conversation Loop anda: jawab + butiran + soalan.",en:"💡 Use your Conversation Loop: answer + a detail + a question back."}}
 };
 function skillOf(l){ return l && l.skill ? SKILLS[l.skill] : null; }
+/* ===== Content Bank v1.1 integration (content only — no UI/system change) ===== */
+/* Normal Speak Up lifted to 4–5 sentences (built from each lesson's own existing
+   sentences); Boss stays 7–8 (auto). m5-L3 formula relabelled Conversation Loop.
+   Foundational lessons carry a Hidden Communication Skill, shown via the existing
+   skill-hint UI. PPF / OREO / Story Builder / Conversation Loop all preserved. */
+const SPEAK_V11 = {
+ "m1-4":["Last month, my friend got a new job.","She told me she is very happy.","We were all surprised and happy for her.","I am so happy for her."],
+ "m2-1":["I feel a bit nervous today.","Because I have a big meeting later.","But I am ready.","So I think it will be okay."],
+ "m2-2":["I enjoy fishing on weekends.","Because it is quiet and relaxing.","My favourite food is nasi lemak.","I eat it almost every morning.","What about you?"],
+ "m2-3":["I think learning English is important.","Because it helps me at work.","For example, I can serve more customers.","That's why learning English is important to me."],
+ "m3-1":["I have a problem with the printer.","It has been broken since Monday.","I already restarted it twice, but it still doesn't work.","Can you send someone to fix it?"],
+ "m3-2":["You look tired these days.","Why don't you sleep earlier?","You should drink more water and rest.","It might help with your headaches."],
+ "m3-3":["I think we should leave at eight.","Because the road is always jammed at nine.","For example, last week we were thirty minutes late.","What do you think about taking the highway?"],
+ "m3-4":["I understand. Don't worry.","We can fix this together.","First, let's email the correct file.","If we explain, the client will understand."],
+ "m5-1":["Are you free this Saturday?","Would you like to have dinner with us?","Great! Come at seven.","See you on Saturday!"],
+ "m5-2":["Guess what!","I got a new job!","I start next Monday, and the office is near my house.","We should celebrate this weekend!"],
+ "m5-3":["My weekend was great.","I went to Penang with my family.","What about you?","Oh really? How do you like this town?","Sounds fun! Let's have lunch again tomorrow."]
+};
+const HCS_V11 = {
+ "m1-1":{zh:"Conversation Loop：回答 + 补一点细节 + 反问一句（How was your evening?），让回答变成双向对话。",ms:"Conversation Loop: jawab + satu butiran + satu soalan balas — jawapan jadi perbualan dua hala.",en:"Conversation Loop — answer + one detail + one question back (\"How was your evening?\"), so a reply becomes a two-way chat."},
+ "m2-1":{zh:"说出情绪 + 给原因（feeling + because…），让别人真正明白你的感受。",ms:"Namakan perasaan + beri sebab (feeling + because…) supaya orang faham anda.",en:"Naming a feeling and giving its reason (feeling + \"because…\"), so emotions become easy to share."},
+ "m2-2":{zh:"分享喜好后把问题丢回去（What about you?），找到共同话题。",ms:"Kongsi kesukaan, kemudian pulangkan soalan (What about you?) untuk cari persamaan.",en:"Sharing a preference and handing the question back (\"What about you?\") to find common ground."},
+ "m2-3":{zh:"看法 + 原因 + 例子，并礼貌地表达不同意（Sorry, I disagree, because…）。",ms:"Pendapat + sebab + contoh, dan tidak setuju dengan sopan (Sorry, I disagree, because…).",en:"Backing an opinion with a reason and an example — and disagreeing politely (\"Sorry, I disagree, because…\")."},
+ "m3-1":{zh:"按顺序把问题说清楚——什么坏了、从什么时候、你已经试过什么——再请求帮助。",ms:"Terangkan masalah ikut urutan — apa rosak, sejak bila, apa sudah dicuba — sebelum minta bantuan.",en:"Describing a problem in order — what is wrong, since when, what you already tried — before asking for help."},
+ "m3-2":{zh:"把建议说得温和友善（Why don't you…?、How about…?）。",ms:"Lembutkan nasihat jadi cadangan mesra (Why don't you…?, How about…?).",en:"Softening advice into a friendly suggestion (\"Why don't you…?\", \"How about…?\")."},
+ "m5-1":{zh:"温暖地邀请，也优雅地拒绝（Maybe next time!）。",ms:"Menjemput dengan mesra dan menolak dengan sopan (Maybe next time!).",en:"Inviting warmly and declining gracefully (\"Maybe next time!\")."},
+ "m5-2":{zh:"分享好消息，也热情回应别人的好消息（Congratulations! I'm so happy for you.）。",ms:"Kongsi berita baik, dan balas berita orang dengan hangat (Congratulations! I'm so happy for you.).",en:"Sharing good news, and reacting warmly to other people's news (\"Congratulations! I'm so happy for you.\")."},
+ "m5-4":{zh:"把想法变成具体计划——提议、同意，再确认细节（时间 + 地点）。",ms:"Tukar idea jadi rancangan — cadang, setuju, sahkan butiran (masa + tempat).",en:"Turning an idea into a concrete plan — propose, agree, then confirm the details (time + place)."}
+};
+COURSE.forEach(m=>m.lessons.forEach((l,li)=>{
+ const k = m.id+"-"+(li+1);
+ if(SPEAK_V11[k]) l.spv11 = SPEAK_V11[k];
+ if(HCS_V11[k]) l.hcs = HCS_V11[k];
+ if(k==="m5-3") l.skill = "loop"; /* Formula Used = Conversation Loop */
+}));
 /* Skill Card — Learn the Skill (full card early; fades to a habit cue in Modules 4–5) */
 function skillCard(l,mi){
- const sk = skillOf(l); if(!sk) return "";
+ const sk = skillOf(l); if(!sk) return l && l.hcs ? `<div class="skillhint">💡 ${esc(tri(l.hcs))}</div>` : "";
  if(mi>=3 || !sk.steps.length) return `<div class="skillhint">${esc(tri(sk.use))}</div>`;
  return `<div class="skillcard"><span class="sk-tag">${sk.icon} ${esc(tri(sk.tag))} · ${esc(sk.name)}</span><div class="sk-steps">${sk.steps.map(s=>`<span class="sk-step">${esc(s)}</span>`).join(`<span class="sk-arr">→</span>`)}</div><div class="sk-line">${esc(tri(sk.line))}</div></div>`;
 }
 /* Mini Reminder — Remember the Skill (formula early; "Use your PPF Skill." later & in Boss) */
 function skillMini(l,mi){
- const sk = skillOf(l); if(!sk) return "";
+ const sk = skillOf(l); if(!sk) return l && l.hcs ? `<div class="skillhint">💡 ${esc(tri(l.hcs))}</div>` : "";
  if(mi>=3 || !sk.steps.length) return `<div class="skillhint">${esc(tri(sk.use))}</div>`;
  return `<div class="skillhint">💡 ${esc(sk.name)}: ${sk.steps.map(esc).join(" → ")}</div>`;
 }
@@ -1546,6 +1585,10 @@ function renderStep(){
   // audio logic, XP, streak and lesson flow below are completely untouched.
   const cleanLine = s => px(s).replace(/\s+([.,!?;:])/g,"$1");
   let lines;
+  if(Array.isArray(l.spv11) && l.spv11.length){
+   // Content Bank v1.1: normal Speak Up = 4–5 connected sentences (lesson's own sentences)
+   lines = l.spv11.slice();
+  } else {
   const ow = (l.o||[]).map(e=>Array.isArray(e.w)?e.w:[]).filter(a=>a.length);
   if(ow.length){
    if(l.boss){
@@ -1558,6 +1601,7 @@ function renderStep(){
   } else {
    const yl = l.d.lines.find(x=>x.who==="Y");
    lines = [ yl ? yl.ans : l.p[0].t ];
+  }
   }
   const scriptHTML = lines.map(s=>esc(cleanLine(s))).join("<br>");
   box.innerHTML = stepShell("🎤 "+stepNum+" · +5 XP", esc(t.speakTitle), t.speakSub,
